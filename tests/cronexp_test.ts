@@ -143,7 +143,7 @@ Deno.test({
     name: "Test date against expression",
     fn: () => {
         // HOUR: 10 UTC / ES
-        const testingDate = convertTZ(new Date("2021-02-17T15:15:49.292Z"), "America/New_York");
+        const testingDate = convertTZ(new Date("2021/02/17 15:15:49"), "America/New_York");
 
         let [valid, structure, error]: [...any] = CronManager.validate("* * * * * * *");
         structure = createCronJobFromStructure(structure);
@@ -223,32 +223,11 @@ Deno.test({
 
         [valid, structure, error] = CronManager.validate("* 12-16 * * *");
         structure = createCronJobFromStructure(structure);
-        console.log(structure);
-
-        const [seconds, minutes, hour, monthDay, month, weekDay, year] = [
-            testingDate.getSeconds(), 
-            testingDate.getMinutes(), 
-            testingDate.getHours(), 
-            testingDate.getDate(),
-            testingDate.getMonth() + 1, // Month start from 0, but we want to take January as 1
-            testingDate.getDay(),
-            testingDate.getFullYear()
-        ];
-
-        console.log({
-            seconds,
-            minutes,
-            hour,
-            monthDay,
-            weekDay,
-            year
-        });
-
-        DenoAsserts.assertEquals(CronManager.isMatch(structure, { date: testingDate }), false);
+        DenoAsserts.assertEquals(CronManager.isMatch(structure, { date: testingDate }), true);
 
         [valid, structure, error] = CronManager.validate("* 12-19 * * *");
         structure = createCronJobFromStructure(structure);
-        DenoAsserts.assertEquals(CronManager.isMatch(structure, { date: testingDate }), false);
+        DenoAsserts.assertEquals(CronManager.isMatch(structure, { date: testingDate }), true);
 
         [valid, structure, error] = CronManager.validate("* 17-19 * * *");
         structure = createCronJobFromStructure(structure);
@@ -264,7 +243,7 @@ Deno.test({
 
         [valid, structure, error] = CronManager.validate("* 10 * * *");
         structure = createCronJobFromStructure(structure);
-        DenoAsserts.assertEquals(CronManager.isMatch(structure, { date: testingDate }), true);
+        DenoAsserts.assertEquals(CronManager.isMatch(structure, { date: testingDate }), false);
 
         [valid, structure, error] = CronManager.validate("16-30 * * * *");
         structure = createCronJobFromStructure(structure);
@@ -306,23 +285,23 @@ Deno.test({
         structure = createCronJobFromStructure(structure);
         DenoAsserts.assertEquals(CronManager.isMatch(structure, { date: testingDate }), true);
 
-        [valid, structure, error] = CronManager.validate("49 15 10 * * * 2021");
+        [valid, structure, error] = CronManager.validate("49 15 15 * * * 2021");
         structure = createCronJobFromStructure(structure);
         DenoAsserts.assertEquals(CronManager.isMatch(structure, { date: testingDate }), true);
 
-        [valid, structure, error] = CronManager.validate("49 15 10 17 * * 2021");
+        [valid, structure, error] = CronManager.validate("49 15 15 17 * * 2021");
         structure = createCronJobFromStructure(structure);
         DenoAsserts.assertEquals(CronManager.isMatch(structure, { date: testingDate }), true);
 
-        [valid, structure, error] = CronManager.validate("49 15 10 17 2 * 2021");
+        [valid, structure, error] = CronManager.validate("49 15 15 17 2 * 2021");
         structure = createCronJobFromStructure(structure);
         DenoAsserts.assertEquals(CronManager.isMatch(structure, { date: testingDate }), true);
 
-        [valid, structure, error] = CronManager.validate("49 15 10 17 2 3 2021");
+        [valid, structure, error] = CronManager.validate("49 15 15 17 2 3 2021");
         structure = createCronJobFromStructure(structure);
         DenoAsserts.assertEquals(CronManager.isMatch(structure, { date: testingDate }), true);
 
-        [valid, structure, error] = CronManager.validate("49 15 10 17 2 4 2021");
+        [valid, structure, error] = CronManager.validate("49 15 15 17 2 4 2021");
         structure = createCronJobFromStructure(structure);
         DenoAsserts.assertEquals(CronManager.isMatch(structure, { date: testingDate }), false);
     }
