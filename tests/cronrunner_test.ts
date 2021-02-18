@@ -167,3 +167,94 @@ Deno.test({
         DenoAsserts.assert(dates[dates.length - 1].getSeconds() === 59);
     }
 });
+
+Deno.test({
+    name: `CRON "15 * * * * *" On Second 15 of X minutes`,
+    fn: async () => {
+        const currentDate = new Date();
+        const currentMin = currentDate.getMinutes();
+        const futureMin = currentMin + 1;
+
+        let manager = new CronManager();
+
+        let dates: Array<Date> = [];
+
+        manager.create(`15 ${futureMin} * * * *`, () => {
+            dates.push(new Date());
+        });
+
+        manager.beginTasks();
+        let resolvable = createResolvable();;
+        let interval = setTimeout(() => {
+            if(dates.length === 1) {
+                manager.stopTasks();
+                resolvable.resolve();
+                clearInterval(interval);
+            } else {
+                resolvable.reject("The operation was executed invalidly");
+            }
+        }, (60000 * 2.5));
+        await resolvable;
+        DenoAsserts.assert(dates[0].getSeconds() === 15);
+    }
+});
+
+Deno.test({
+    name: `CRON "* * * * * *" On a false future month day`,
+    fn: async () => {
+        const currentDate = new Date();
+        const currentMonthDay = currentDate.getDate();
+        const futureMonthDay = currentMonthDay + 1;
+
+        let manager = new CronManager();
+
+        let dates: Array<Date> = [];
+
+        manager.create(`* * * ${futureMonthDay} * *`, () => {
+            dates.push(new Date());
+        });
+
+        manager.beginTasks();
+        let resolvable = createResolvable();;
+        let interval = setTimeout(() => {
+            if(dates.length === 0) {
+                manager.stopTasks();
+                resolvable.resolve();
+                clearInterval(interval);
+            } else {
+                resolvable.reject("The operation was executed invalidly");
+            }
+        }, (60000 * 2.5));
+        await resolvable;
+    }
+});
+
+Deno.test({
+    name: `CRON "* * * * * *" On a false future month`,
+    fn: async () => {
+        const currentDate = new Date();
+        const currentMonth = currentDate.getMonth();
+        const futureMonth = currentMonth + 2;
+
+        let manager = new CronManager();
+
+        let dates: Array<Date> = [];
+
+        manager.create(`* * * * ${futureMonth} *`, () => {
+            dates.push(new Date());
+        });
+
+        manager.beginTasks();
+        let resolvable = createResolvable();;
+        let interval = setTimeout(() => {
+            if(dates.length === 0) {
+                manager.stopTasks();
+                resolvable.resolve();
+                clearInterval(interval);
+            } else {
+                resolvable.reject("The operation was executed invalidly");
+            }
+        }, (60000 * 2.5));
+        await resolvable;
+    }
+});
