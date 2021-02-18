@@ -161,7 +161,7 @@ const isValidRange = (rangeData: string) => {
     }
 }
 
-const convertTZ = (date: Date, tzString: string): Date => {
+export const convertTZ = (date: Date, tzString: string): Date => {
     return new Date((typeof date === "string" ? new Date(date) : date).toLocaleString("en-US", {timeZone: tzString}));   
 }
 

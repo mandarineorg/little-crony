@@ -1,4 +1,4 @@
-import { CronManager } from "../src/cronManager.ts"
+import { convertTZ, CronManager } from "../src/cronManager.ts"
 import * as DenoAsserts from "https://deno.land/std@0.84.0/testing/asserts.ts";
 import { CronJob, CronStructure, ExpressionErrors } from "../src/types.ts";
 
@@ -143,7 +143,7 @@ Deno.test({
     name: "Test date against expression",
     fn: () => {
         // HOUR: 10 UTC / ES
-        const testingDate = new Date("2021-02-17T15:15:49.292Z");
+        const testingDate = convertTZ(new Date("2021-02-17T15:15:49.292Z"), "America/New_York");
 
         let [valid, structure, error]: [...any] = CronManager.validate("* * * * * * *");
         structure = createCronJobFromStructure(structure);

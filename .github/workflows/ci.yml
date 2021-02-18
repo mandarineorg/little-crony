@@ -20,4 +20,4 @@ jobs:
       - name: run tests
         env:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
-        run: deno test
+        run: deno test --fail-fast
