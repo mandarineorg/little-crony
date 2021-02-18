@@ -1,4 +1,4 @@
-# Leaf
+# Little Crony
 [![Little Crony CI](https://github.com/mandarineorg/little-crony/workflows/Unit%20Tests/badge.svg)](https://github.com/mandarineorg/little-crony)
 
 <img src="https://www.mandarinets.org/assets/images/full-logo-simple.svg" width="180" height="180" />
