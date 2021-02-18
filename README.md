@@ -13,17 +13,17 @@ Little Crony is a [CRON jobs](https://en.wikipedia.org/wiki/Cron) manager which 
 ## Supported Expresions
 Little Crony supports 3 different lengths in the expression:  
 
-*5 Parameters:* (Minute, Hour, Day of The Month, Month, Day of The Week)
+**5 Parameters:** (Minute, Hour, Day of The Month, Month, Day of The Week)
 ```
 * * * * *
 ```
 
-*6 Parameters:* (Seconds, Minute, Hour, Day of The Month, Month, Day of The Week)
+**6 Parameters:** (Seconds, Minute, Hour, Day of The Month, Month, Day of The Week)
 ```
 * * * * * *
 ```
 
-*7 Parameters:* (Seconds, Minute, Hour, Day of The Month, Month, Day of The Week, Year)
+**7 Parameters:** (Seconds, Minute, Hour, Day of The Month, Month, Day of The Week, Year)
 ```
 * * * * * * *
 ```
