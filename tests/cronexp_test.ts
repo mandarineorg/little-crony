@@ -223,6 +223,27 @@ Deno.test({
 
         [valid, structure, error] = CronManager.validate("* 12-16 * * *");
         structure = createCronJobFromStructure(structure);
+        console.log(structure);
+
+        const [seconds, minutes, hour, monthDay, month, weekDay, year] = [
+            testingDate.getSeconds(), 
+            testingDate.getMinutes(), 
+            testingDate.getHours(), 
+            testingDate.getDate(),
+            testingDate.getMonth() + 1, // Month start from 0, but we want to take January as 1
+            testingDate.getDay(),
+            testingDate.getFullYear()
+        ];
+
+        console.log({
+            seconds,
+            minutes,
+            hour,
+            monthDay,
+            weekDay,
+            year
+        });
+
         DenoAsserts.assertEquals(CronManager.isMatch(structure, { date: testingDate }), false);
 
         [valid, structure, error] = CronManager.validate("* 12-19 * * *");
